@@ -699,3 +699,24 @@
       <div class="exp-links">
         <a href="https://youtube.com/@teslema28" target="_blank" rel="noopener">YouTube — @teslema28</a>
         <a href="https://www.tiktok.com/@gladget8
+</div> <!-- close last exp-card if needed -->
+  </div>
+</section>
+
+<!-- remaining sections: certificates, education, contact, footer -->
+
+<footer class="wrap">
+  <p>&copy; Christian Ralph Tuling • All Rights Reserved</p>
+</footer>
+
+<script>
+  // Theme toggle (add this if missing)
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e){}
+  });
+</script>
+</body>
+</html>
