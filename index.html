@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('theme');
+    if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christian Ralph Tuling — Virtual Assistant</title>
+<meta name="description" content="Christian Ralph Tuling — Virtual Assistant based in Davao Oriental, Philippines. Email management, data entry, research, customer support, social media management, and design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#152B27;
+    --ink-soft:#2B3F3A;
+    --paper:#F1F2ED;
+    --paper-raised:#FAFAF6;
+    --gold:#B98A2E;
+    --gold-soft:#DDBD7C;
+    --sage:#5E7A6C;
+    --line:#D8D9CF;
+    --text:#1C2521;
+    --text-muted:#5B655F;
+    --radius:2px;
+    --side-pad:24px;
+    --shadow:0 6px 20px -10px rgba(21,43,39,0.18);
+  }
+  [data-theme="dark"]{
+    --ink:#EDEFEA;
+    --ink-soft:#C7D0C9;
+    --paper:#101712;
+    --paper-raised:#182019;
+    --gold:#DCB05F;
+    --gold-soft:#7C6130;
+    --sage:#7FA08D;
+    --line:#2A362F;
+    --text:#E4E7E0;
+    --text-muted:#93A199;
+    --shadow:0 6px 24px -8px rgba(0,0,0,0.5);
+  }
+  @media(min-width:640px){ :root{ --side-pad:40px; } }
+  @media(min-width:1024px){ :root{ --side-pad:64px; } }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    transition:background-color .35s ease, color .35s ease;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+    transition:color .35s ease;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  a{color:inherit;}
+  .wrap{max-width:840px;margin:0 auto;padding:0 var(--side-pad);}
+  section, .service-row, .tag, .exp-card, .stat, .cred-item, .status,
+  .social-btn, .video-block, .contact-email, .seal, footer, .cert-img-wrap,
+  .marquee-toggle, .certificates-wrap{
+    transition:background-color .35s ease, border-color .35s ease, color .35s ease, box-shadow .35s ease;
+  }
+
+  /* ---------- Tab navigation (signature element) ---------- */
+  .tabbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    transition:background-color .35s ease, border-color .35s ease;
+  }
+  .tabbar-inner{
+    max-width:840px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:0 var(--side-pad);
+  }
+  .tabs-scroll{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    flex:1;
+    min-width:0;
+  }
+  .tabs-scroll::-webkit-scrollbar{display:none;}
+  .tab-name{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1rem;
+    color:var(--ink);
+    padding:16px 14px 16px 0;
+    white-space:nowrap;
+    flex:none;
+  }
+  .tab{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.75rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--text-muted);
+    padding:14px 14px;
+    border-top:2px solid transparent;
+    white-space:nowrap;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .tab:hover{color:var(--ink);}
+  .tab.is-active{
+    color:var(--ink);
+    border-top-color:var(--gold);
+    background:var(--paper-raised);
+  }
+  .theme-toggle{
+    flex:none;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1rem;
+    cursor:pointer;
+    transition:background-color .35s ease, border-color .35s ease, transform .15s ease;
+  }
+  .theme-toggle:hover{transform:scale(1.06);border-color:var(--gold);}
+  .theme-toggle:active{transform:scale(0.96);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:72px 0 56px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-grid{
+    display:flex;
+    flex-direction:column-reverse;
+    align-items:flex-start;
+    gap:28px;
+  }
+  .hero-photo{
+    flex:none;
+    width:104px;
+    height:104px;
+    border-radius:50%;
+    padding:4px;
+    border:1.5px solid var(--gold);
+  }
+  .hero-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    display:block;
+  }
+  .hero-text{flex:1;min-width:0;}
+  @media(min-width:640px){
+    .hero-grid{
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      gap:40px;
+    }
+    .hero-photo{width:132px;height:132px;}
+  }
+  .hero .eyebrow{display:block;margin-bottom:14px;}
+  .hero h1{
+    font-size:clamp(2.2rem,6vw,3rem);
+    line-height:1.08;
+    margin-bottom:16px;
+  }
+  .hero p.lead{
+    max-width:52ch;
+    color:var(--text-muted);
+    font-size:1.05rem;
+    margin-bottom:28px;
+  }
+  .status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    padding:7px 12px;
+    border-radius:var(--radius);
+  }
+  .status .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--sage);
+    box-shadow:0 0 0 3px rgba(94,122,108,0.18);
+  }
+
+  /* ---------- Section shell ---------- */
+  section{
+    padding:56px 0;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:28px;
+    gap:16px;
+  }
+  .section-head h2{font-size:1.5rem;}
+  .index-no{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--text-muted);
+  }
+  .fade-up{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .fade-up.is-visible{opacity:1;transform:none;}
+
+  /* ---------- About ---------- */
+  .about p{color:var(--text);max-width:60ch;margin-bottom:14px;}
+  .about p:last-child{margin-bottom:20px;}
+  .video-block{
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    padding:16px;
+    border-radius:var(--radius);
+    max-width:640px;
+    transition:background-color .35s ease, border-color .35s ease;
+  }
+  .video-block h3{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--text-muted);
+    font-weight:500;
+    margin-bottom:12px;
+  }
+  .video-frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%; /* 16:9 widescreen */
+    background:#0B1210;
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .video-frame iframe{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border:0;
+  }
+
+  /* ---------- Services ---------- */
+  .services-list{
+    border-top:1px solid var(--line);
+  }
+  .service-row{
+    display:grid;
+    grid-template-columns:2.4em 1fr;
+    gap:18px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .service-row .no{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--gold);
+    padding-top:3px;
+  }
+  .service-row h3{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    color:var(--ink);
+    margin-bottom:4px;
+  }
+  .service-row p{
+    color:var(--text-muted);
+    font-size:0.92rem;
+  }
+
+  /* ---------- Skills / tools tags ---------- */
+  .tag-group{margin-bottom:22px;}
+  .tag-group:last-child{margin-bottom:0;}
+  .tag-group h3{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--text-muted);
+    font-weight:500;
+    margin-bottom:12px;
+  }
+  .tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{
+    font-size:0.86rem;
+    padding:7px 13px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    border-radius:var(--radius);
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Experience ---------- */
+  .exp-card{
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .exp-card:last-child{border-bottom:none;}
+  .exp-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:6px 16px;
+    margin-bottom:8px;
+  }
+  .exp-top h3{font-size:1.08rem;}
+  .exp-dates{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.76rem;
+    color:var(--text-muted);
+    white-space:nowrap;
+  }
+  .exp-card p{color:var(--text-muted);margin-bottom:12px;max-width:58ch;}
+  .proof-stats{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .stat{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--ink);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    padding:6px 11px;
+    border-radius:var(--radius);
+  }
+  .stat b{color:var(--gold);font-weight:600;}
+  .exp-links{display:flex;gap:14px;flex-wrap:wrap;}
+  .exp-links a{
+    font-size:0.86rem;
+    font-weight:500;
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:1px solid var(--gold-soft);
+    padding-bottom:1px;
+  }
+  .exp-links a:hover{border-bottom-color:var(--gold);}
+
+  /* ---------- Certifications / Education ---------- */
+  .cred-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:32px;
+  }
+  @media(min-width:640px){
+    .cred-grid{grid-template-columns:1fr 1fr;}
+  }
+  .cred-col h3{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--text-muted);
+    font-weight:500;
+    margin-bottom:14px;
+  }
+  .cred-item{
+    display:flex;
+    gap:12px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .cred-item:last-child{border-bottom:none;}
+  .seal{
+    flex:none;
+    width:26px;height:26px;
+    border-radius:50%;
+    border:1.5px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;
+    font-size:0.72rem;
+    color:var(--gold);
+    margin-top:1px;
+  }
+  .cred-item div p{
+    font-weight:500;
+    color:var(--ink);
+    font-size:0.94rem;
+  }
+  .cred-item div span{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.74rem;
+    color:var(--text-muted);
+  }
+
+  /* ---------- Certificates marquee ---------- */
+  .marquee-controls{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:16px;
+  }
+  .marquee-toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.76rem;
+    color:var(--ink);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    padding:7px 14px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  .marquee-toggle:hover{border-color:var(--gold);}
+  .certificates-wrap{
+    position:relative;
+    overflow:hidden;
+    padding:14px 0 26px;
+    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    mask-image:linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+  .marquee-track{
+    display:flex;
+    gap:22px;
+    width:max-content;
+    animation:marquee 30s linear infinite;
+    will-change:transform;
+  }
+  .certificates-wrap:hover .marquee-track,
+  .certificates-wrap.is-paused .marquee-track{
+    animation-play-state:paused;
+  }
+  .certificates-wrap:hover .cert-float,
+  .certificates-wrap.is-paused .cert-float{
+    animation-play-state:paused;
+  }
+  .cert-card{flex:none;width:210px;}
+  .cert-float{
+    animation:certFloat 5.5s ease-in-out infinite;
+    animation-delay:var(--fd, 0s);
+  }
+  .cert-img-wrap{
+    width:100%;
+    height:260px;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .cert-img-wrap img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  .cert-name{
+    margin-top:11px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.74rem;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+  .cert-name span{
+    display:block;
+    color:var(--text-muted);
+    font-size:0.7rem;
+    margin-top:2px;
+  }
+  .cert-extra{
+    margin-top:18px;
+    text-align:center;
+    color:var(--text-muted);
+    font-size:0.86rem;
+  }
+  @keyframes marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @keyframes certFloat{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-9px) rotate(-1.3deg);}
+  }
+  @media(min-width:640px){
+    .cert-card{width:236px;}
+    .cert-img-wrap{height:290px;}
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-card{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    align-items:flex-start;
+  }
+  .contact-email{
+    font-family:'Fraunces',serif;
+    font-size:clamp(1.3rem,4vw,1.7rem);
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:2px solid var(--gold);
+    padding-bottom:2px;
+  }
+  .contact-note{color:var(--text-muted);max-width:52ch;}
+  .socials{display:flex;gap:12px;flex-wrap:wrap;}
+  .social-btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    text-decoration:none;
+    color:var(--ink);
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    padding:9px 16px;
+    border-radius:var(--radius);
+    transition:border-color .15s ease;
+  }
+  .social-btn:hover{border-color:var(--gold);}
+
+  footer{
+    padding:28px 0 48px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.74rem;
+    color:var(--text-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .fade-up{opacity:1;transform:none;transition:none;}
+    .marquee-track{animation:none;}
+    .cert-float{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="tabbar">
+  <div class="tabbar-inner">
+    <span class="tab-name">C. Tuling</span>
+    <div class="tabs-scroll">
+      <a class="tab" href="#about">About</a>
+      <a class="tab" href="#services">Services</a>
+      <a class="tab" href="#work">Work</a>
+      <a class="tab" href="#certificates">Certificates</a>
+      <a class="tab" href="#education">Education</a>
+      <a class="tab" href="#contact">Contact</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+      <span class="theme-icon" aria-hidden="true">◐</span>
+    </button>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow">Virtual Assistant · Davao Oriental, Philippines</span>
+      <h1>Christian Ralph Tuling</h1>
+      <p class="lead">I keep inboxes, schedules, and small-business admin running smoothly — so you can focus on the work only you can do.</p>
+      <span class="status"><span class="dot"></span>Available for new clients</span>
+    </div>
+    <div class="hero-photo"><img src="profile.jpg" alt="Christian Ralph Tuling"></div>
+  </div>
+</header>
+
+<section id="about" class="wrap about">
+  <div class="section-head">
+    <h2>About</h2>
+    <span class="index-no">01</span>
+  </div>
+  <div class="fade-up">
+    <p>I'm a virtual assistant supporting small businesses and individuals with the day-to-day tasks that keep things moving — from inbox and calendar upkeep to research, customer support, and content. I've spent the last few years building hands-on experience across design and social media, and I bring the same reliability to admin work.</p>
+    <p>Clients recognize me for staying organized under pressure, communicating clearly, and following through until a task is actually done — not just started.</p>
+    <div class="video-block">
+      <h3>Self-Introduction</h3>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/INHAGtC2Tio" title="Christian Ralph Tuling — Self Introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="wrap">
+  <div class="section-head">
+    <h2>Services</h2>
+    <span class="index-no">02</span>
+  </div>
+  <div class="services-list fade-up">
+    <div class="service-row">
+      <span class="no">01</span>
+      <div><h3>Email &amp; Calendar Management</h3><p>Inbox upkeep, scheduling, and reminders so nothing slips through.</p></div>
+    </div>
+    <div class="service-row">
+      <span class="no">02</span>
+      <div><h3>Data Entry</h3><p>Accurate, organized entry into spreadsheets, forms, and databases.</p></div>
+    </div>
+    <div class="service-row">
+      <span class="no">03</span>
+      <div><h3>Research</h3><p>Focused research summarized into clear, usable findings.</p></div>
+    </div>
+    <div class="service-row">
+      <span class="no">04</span>
+      <div><h3>Customer Support</h3><p>Prompt, courteous responses that keep customers taken care of.</p></div>
+    </div>
+    <div class="service-row">
+      <span class="no">05</span>
+      <div><h3>Social Media Management</h3><p>Posting, scheduling, and light community management.</p></div>
+    </div>
+    <div class="service-row">
+      <span class="no">06</span>
+      <div><h3>Video &amp; Photo Editing</h3><p>Retention-focused edits for short-form and long-form content.</p></div>
+    </div>
+    <div class="service-row">
+      <span class="no">07</span>
+      <div><h3>Graphic Design (Canva)</h3><p>Branded marketing assets, pubmats, and social templates.</p></div>
+    </div>
+  </div>
+
+  <div class="fade-up" style="margin-top:36px;display:grid;gap:22px;grid-template-columns:1fr;">
+    <div class="tag-group">
+      <h3>Core Skills</h3>
+      <div class="tags">
+        <span class="tag">Communication</span>
+        <span class="tag">Creativity</span>
+        <span class="tag">Graphic Design</span>
+        <span class="tag">Technical Troubleshooting</span>
+        <span class="tag">AI Prompt Engineering</span>
+      </div>
+    </div>
+    <div class="tag-group">
+      <h3>Tools</h3>
+      <div class="tags">
+        <span class="tag">Google Workspace</span>
+        <span class="tag">Canva</span>
+        <span class="tag">MS Word / Excel / PowerPoint</span>
+        <span class="tag">Video &amp; Photo Editing Software</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="wrap">
+  <div class="section-head">
+    <h2>Experience</h2>
+    <span class="index-no">03</span>
+  </div>
+
+  <div class="fade-up">
+    <div class="exp-card">
+      <div class="exp-top">
+        <h3>Video Editor — Self-directed</h3>
+        <span class="exp-dates">Jul 2023 – Present</span>
+      </div>
+      <p>Own and run a Roblox-focused YouTube channel and a phone-tech TikTok channel end-to-end: filming, editing, posting, and audience growth.</p>
+      <div class="proof-stats">
+        <span class="stat"><b>1,106+</b> TikTok followers</span>
+        <span class="stat"><b>3</b> posts past <b>500K</b> views</span>
+        <span class="stat">~<b>2,000</b> YouTube subscribers supported</span>
+        <span class="stat"><b>200K+</b> likes</span>
+      </div>
+      <div class="exp-links">
+        <a href="https://youtube.com/@teslema28" target="_blank" rel="noopener">YouTube — @teslema28</a>
+        <a href="https://www.tiktok.com/@gladget8
