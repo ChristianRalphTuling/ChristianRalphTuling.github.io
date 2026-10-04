@@ -428,6 +428,7 @@ $('#initials').textContent = SITE.name.split(' ').map(w => w[0]).join('').slice(
     setTimeout(step, d);
   })();
 })();
+
 /* ---------- Contact ---------- */
 $('#mail').href = 'mailto:' + SITE.email + '?subject=' + encodeURIComponent('Hello ' + SITE.firstName);
 $('#emailText').textContent = SITE.email;
